@@ -45,7 +45,7 @@ public class Order {
     private Delivery delivery;
 
     // 주문시간
-    private LocalDateTime oderDate;
+    private LocalDateTime orderDate;
 
     // 주문상태 [ORDER, CANCEL]
     private OrderStatus status;
@@ -53,7 +53,7 @@ public class Order {
     // 연관관계 편의 메소드
     public void setMember(Member member) {
         this.member = member;
-        member.getOders().add(this);
+        member.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -75,7 +75,7 @@ public class Order {
         Arrays.stream(orderItems).forEach(order::addOrderItem);
 
         order.setStatus(OrderStatus.ORDER);
-        order.setOderDate(LocalDateTime.now());
+        order.setOrderDate(LocalDateTime.now());
         return order;
     }
 
