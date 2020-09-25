@@ -97,7 +97,31 @@ public class OrderRepository {
         return em.createQuery(
             "select o from Order o" +
                 " join fetch o.member m" +
-                " join fetch o.delivery d", Order.class
-        ).getResultList();
+                " join fetch o.delivery d", Order.class)
+            .getResultList();
+    }
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+            "select o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d", Order.class)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+    }
+
+    // 일대다 fetch join -> 페이징 불가능일
+    // 컬렉션 페치 조인은 둘 이상 사용 하면 안된다. ex) 1 : n : m (x)
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+            "select distinct o from Order o"
+                + " join fetch o.member m"
+                + " join fetch o.delivery d"
+                + " join fetch o.orderItems oi"
+                + " join fetch oi.item i", Order.class)
+//            .setFirstResult(1)
+//            .setMaxResults(100)
+            .getResultList();
     }
 }
