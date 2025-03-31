@@ -17,7 +17,6 @@ public class Member {
     @GeneratedValue
     private Long id;
 
-    @NotEmpty
     private String name;
 
     @Embedded
