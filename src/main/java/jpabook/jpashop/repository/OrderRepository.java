@@ -58,4 +58,19 @@ public class OrderRepository {
                         " join fetch o.delivery d", Order.class
         ).getResultList();
     }
+
+    // distinct 와 fetch join 으로 쿼리 한번으로 조회 성능 향상
+    // 단, 페이징 불가, 컬렉션 페치조인은 1 만 가능
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select distinct o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i", Order.class)
+                // 메모리에서 sorting 한다!!!
+                .setFirstResult(1)
+                .setMaxResults(100)
+                .getResultList();
+    }
 }
