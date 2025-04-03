@@ -32,6 +32,8 @@ public class OrderApiController {
     public List<Order> ordersV1() {
         List<Order> orders = orderRepository.findAll(new OrderSearch());
 
+        // OSIV 설정 default = true 이기 때문에 동작하는 코드
+        // XXXQueryService 와 같은 클래스로 옮겨 트랜잭션 내에서 해결하자.
         for (Order order : orders) {
             order.getMember().getName();
             order.getDelivery().getAddress();
